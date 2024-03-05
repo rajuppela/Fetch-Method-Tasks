@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Info</title>
+    <style>
+        body {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+          background-size: contain;
+        }
+    </style>
+  </head>
+  <body>
+    <form action="">
+      <input type="text" placeholder="Enter a city name">
+      <input type="submit">
+    </form>
+    <script>
+        var f = document.forms;
+        var card = document.createElement('div');
+                    card.style.margin = '10px';
+                    card.style.width = '250px';
+                    card.style.height = '250px';
+                    card.style.boxShadow = '0px 0px 5px grey';
+                    card.style.backgroundColor='lightblue';
+                    card.style.backgroundSize='cover';
+                    document.body.appendChild(card);
+                    var cityname = document.createElement('h2');
+                    card.appendChild(cityname);
+                    cityname.style.color='brown';
+                    cityname.style.fontSize='40px';
+                    var tempo = document.createElement('h1');
+                    tempo.style.fontSize='50px';
+                    tempo.style.color='blue';
+                    card.appendChild(tempo);
+        f[0].addEventListener('submit',function(e)
+        {
+            e.preventDefault();
+            var city = e.target[0].value;
+            var start = 'https://api.openweathermap.org/data/2.5/weather?q=';
+            var end = '&appid=8610d17c220e2a86c86ae2a9d6f44513';
+            var api = start+city+end;
+            fetch(api,{method:'get'}).then((val)=>{
+                return val.json()
+                }).then((val)=>{
+                    cityname.innerText=city;
+                    tempo.innerHTML=parseInt(val['main'].temp-273.15)+'<sup>o</sup> C';
+                    if(parseInt(val['main'].temp-273.15)<10)
+                    {
+                      card.style.backgroundImage='url(https://www.animationsoftware7.com/img/agifs/snow02.gif)';
+                    }
+                    else if(parseInt(val['main'].temp-273.15)>=10 && parseInt(val['main'].temp-273.15)<30)
+                    {
+                      card.style.backgroundImage='url(https://i.pinimg.com/originals/b5/02/82/b502824fdd18a1d90e56266b55696180.gif)';
+                    }
+                    else if(parseInt(val['main'].temp-273.15)>=30 && parseInt(val['main'].temp-273.15)<50)
+                    {
+                      card.style.backgroundImage='url(https://i.pinimg.com/originals/a3/28/c6/a328c6402672e2e31586a639d4a9645f.gif)';
+                    }
+                }
+
+)
+e.target[0].value='';
+        })
+    </script>
+  </body>
+</html>
